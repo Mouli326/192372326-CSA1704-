@@ -1,0 +1,83 @@
+class Student:
+    def __init__(self, student_id, name, dob):
+        self.student_id = student_id
+        self.name = name
+        self.dob = dob
+
+    def __str__(self):
+        return f"ID: {self.student_id}, Name: {self.name}, DOB: {self.dob}"
+
+
+class Teacher:
+    def __init__(self, teacher_id, name, subject):
+        self.teacher_id = teacher_id
+        self.name = name
+        self.subject = subject
+
+    def __str__(self):
+        return f"ID: {self.teacher_id}, Name: {self.name}, Subject: {self.subject}"
+
+
+class SchoolManagementSystem:
+    def __init__(self):
+        self.students = []
+        self.teachers = []
+
+    def add_student(self, student_id, name, dob):
+        student = Student(student_id, name, dob)
+        self.students.append(student)
+        print(f"Student {name} added successfully.")
+
+    def add_teacher(self, teacher_id, name, subject):
+        teacher = Teacher(teacher_id, name, subject)
+        self.teachers.append(teacher)
+        print(f"Teacher {name} added successfully.")
+
+    def display_students(self):
+        print("\nList of Students:")
+        for student in self.students:
+            print(student)
+
+    def display_teachers(self):
+        print("\nList of Teachers:")
+        for teacher in self.teachers:
+            print(teacher)
+
+
+if __name__ == "__main__":
+    sms = SchoolManagementSystem()
+
+    while True:
+        print("\nSchool Management System")
+        print("1. Add Student")
+        print("2. Add Teacher")
+        print("3. Display Students")
+        print("4. Display Teachers")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            student_id = input("Enter Student ID: ")
+            name = input("Enter Student Name: ")
+            dob = input("Enter Student Date of Birth (YYYY-MM-DD): ")
+            sms.add_student(student_id, name, dob)
+
+        elif choice == '2':
+            teacher_id = input("Enter Teacher ID: ")
+            name = input("Enter Teacher Name: ")
+            subject = input("Enter Subject: ")
+            sms.add_teacher(teacher_id, name, subject)
+
+        elif choice == '3':
+            sms.display_students()
+
+        elif choice == '4':
+            sms.display_teachers()
+
+        elif choice == '5':
+            print("Exiting the system.")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
