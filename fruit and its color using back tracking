@@ -1,0 +1,31 @@
+def backtrack(fruits, colors, current_combination, index, results):
+    """Backtracking function to find all combinations of fruits and colors."""
+    if index == len(fruits):
+        results.append(current_combination.copy())
+        return
+
+    for color in colors:
+        current_combination[fruits[index]] = color
+        backtrack(fruits, colors, current_combination, index + 1, results)
+        # Backtrack: remove the last added color
+        current_combination[fruits[index]] = None
+
+def find_fruit_color_combinations(fruits, colors):
+    """Find all combinations of fruits and their colors."""
+    results = []
+    current_combination = {fruit: None for fruit in fruits}
+    backtrack(fruits, colors, current_combination, 0, results)
+    return results
+
+def main():
+    fruits = ["apple", "banana", "cherry"]
+    colors = ["red", "yellow", "green"]
+
+    combinations = find_fruit_color_combinations(fruits, colors)
+
+    print("All combinations of fruits and their colors:")
+    for combination in combinations:
+        print(combination)
+
+if __name__ == "__main__":
+    main()
