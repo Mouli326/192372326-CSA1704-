@@ -1,0 +1,39 @@
+class MedicalDiagnosisSystem:
+    def __init__(self):
+        # Dictionary to store symptoms and their corresponding conditions
+        self.disease_symptoms = {
+            "flu": ["fever", "cough", "sore throat", "body ache", "fatigue"],
+            "cold": ["cough", "sore throat", "runny nose", "sneezing"],
+            "covid-19": ["fever", "cough", "loss of taste", "difficulty breathing"],
+            "allergy": ["sneezing", "runny nose", "itchy eyes", "cough"],
+            "stomach flu": ["nausea", "vomiting", "diarrhea", "stomach cramps"],
+        }
+
+    def diagnose(self, symptoms):
+        """Diagnose possible conditions based on the provided symptoms."""
+        possible_conditions = []
+
+        for disease, disease_symptoms in self.disease_symptoms.items():
+            if all(symptom in symptoms for symptom in disease_symptoms):
+                possible_conditions.append(disease)
+
+        return possible_conditions
+
+def main():
+    diagnosis_system = MedicalDiagnosisSystem()
+
+    print("Welcome to the Medical Diagnosis System!")
+    symptoms_input = input("Please enter your symptoms separated by commas: ")
+    symptoms = [symptom.strip().lower() for symptom in symptoms_input.split(",")]
+
+    possible_conditions = diagnosis_system.diagnose(symptoms)
+
+    if possible_conditions:
+        print("Possible conditions based on your symptoms:")
+        for condition in possible_conditions:
+            print(f"- {condition}")
+    else:
+        print("No conditions matched your symptoms. Please consult a healthcare professional.")
+
+if __name__ == "__main__":
+    main()
