@@ -1,0 +1,112 @@
+class TicTacToe:
+    def __init__(self):
+        self.board = [' ' for _ in range(9)]  # A list to hold the board state
+        self.current_player = 'X'  # Player 'X' is the human player
+        self.computer_player = 'O'  # Player 'O' is the computer
+
+    def print_board(self):
+        """Print the current state of the board."""
+        print(f"{self.board[0]} | {self.board[1]} | {self.board[2]}")
+        print("--+---+--")
+        print(f"{self.board[3]} | {self.board[4]} | {self.board[5]}")
+        print("--+---+--")
+        print(f"{self.board[6]} | {self.board[7]} | {self.board[8]}")
+
+    def is_winner(self, player):
+        """Check if the specified player has won."""
+        winning_combinations = [
+            (0, 1, 2), (3, 4, 5), (6, 7, 8),  # Horizontal
+            (0, 3, 6), (1, 4, 7), (2, 5, 8),  # Vertical
+            (0, 4, 8), (2, 4, 6)               # Diagonal
+        ]
+        for combo in winning_combinations:
+            if self.board[combo[0]] == self.board[combo[1]] == self.board[combo[2]] == player:
+                return True
+        return False
+
+    def is_draw(self):
+        """Check if the game is a draw."""
+        return ' ' not in self.board
+
+    def alpha_beta(self, depth, alpha, beta, is_maximizing):
+        """Alpha-Beta pruning algorithm to evaluate the best move."""
+        if self.is_winner(self.computer_player):
+            return 1  # Computer wins
+        if self.is_winner(self.current_player):
+            return -1  # Human wins
+        if self.is_draw():
+            return 0  # Draw
+
+        if is_maximizing:
+            best_score = float('-inf')
+            for i in range(9):
+                if self.board[i] == ' ':
+                    self.board[i] = self.computer_player
+                    score = self.alpha_beta(depth + 1, alpha, beta, False)
+                    self.board[i] = ' '  # Undo move
+                    best_score = max(score, best_score)
+                    alpha = max(alpha, score)
+                    if beta <= alpha:
+                        break  # Beta cut-off
+            return best_score
+        else:
+            best_score = float('inf')
+            for i in range(9):
+                if self.board[i] == ' ':
+                    self.board[i] = self.current_player
+                    score = self.alpha_beta(depth + 1, alpha, beta, True)
+                    self.board[i] = ' '  # Undo move
+                    best_score = min(score, best_score)
+                    beta = min(beta, score)
+                    if beta <= alpha:
+                        break  # Alpha cut-off
+            return best_score
+
+    def best_move(self):
+        """Determine the best move for the computer using Alpha-Beta pruning."""
+        best_score = float('-inf')
+        move = -1
+        alpha = float('-inf')
+        beta = float('inf')
+        for i in range(9):
+            if self.board[i] == ' ':
+                self.board[i] = self.computer_player
+                score = self.alpha_beta(0, alpha, beta, False)
+                self.board[i] = ' '  # Undo move
+                if score > best_score:
+                    best_score = score
+                    move = i
+        return move
+
+    def play(self):
+        """Main game loop."""
+        while True:
+            self.print_board()
+            if self.current_player == 'X':  # Human player's turn
+                try:
+                    position = int(input("Enter your move (1-9): ")) - 1
+                    if position < 0 or position > 8 or self.board[position] != ' ':
+                        print("Invalid move. Try again.")
+                        continue
+                except ValueError:
+                    print("Invalid input. Please enter a number between 1 and 9.")
+                    continue
+            else:  # Computer's turn
+                position = self.best_move()
+
+            self.board[position] = self.current_player
+            if self.is_winner(self.current_player):
+                self.print_board()
+                print(f"Player {self.current_player} wins!")
+                break
+            if self.is_draw():
+                self.print_board()
+                print("It's a draw!")
+                break
+
+            # Switch players
+            self.current_player = self.computer_player if self.current_player == 'X' else 'X'
+
+if __name__ == "__main__":
+    game = TicTacToe()
+    game.play()
