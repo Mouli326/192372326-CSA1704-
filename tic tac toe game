@@ -1,0 +1,65 @@
+class TicTacToe:
+    def __init__(self):
+        self.board = [' ' for _ in range(9)]  # A list to hold the board state
+        self.current_player = 'X'  # Starting player
+
+    def print_board(self):
+        """Print the current state of the board."""
+        print(f"{self.board[0]} | {self.board[1]} | {self.board[2]}")
+        print("--+---+--")
+        print(f"{self.board[3]} | {self.board[4]} | {self.board[5]}")
+        print("--+---+--")
+        print(f"{self.board[6]} | {self.board[7]} | {self.board[8]}")
+
+    def is_winner(self):
+        """Check if the current player has won."""
+        winning_combinations = [
+            (0, 1, 2), (3, 4, 5), (6, 7, 8),  # Horizontal
+            (0, 3, 6), (1, 4, 7), (2, 5, 8),  # Vertical
+            (0, 4, 8), (2, 4, 6)               # Diagonal
+        ]
+        for combo in winning_combinations:
+            if self.board[combo[0]] == self.board[combo[1]] == self.board[combo[2]] != ' ':
+                return True
+        return False
+
+    def is_draw(self):
+        """Check if the game is a draw."""
+        return ' ' not in self.board
+
+    def make_move(self, position):
+        """Make a move on the board."""
+        if self.board[position] == ' ':
+            self.board[position] = self.current_player
+            if self.is_winner():
+                self.print_board()
+                print(f"Player {self.current_player} wins!")
+                return True
+            if self.is_draw():
+                self.print_board()
+                print("It's a draw!")
+                return True
+            self.current_player = 'O' if self.current_player == 'X' else 'X'
+        else:
+            print("Invalid move. Try again.")
+        return False
+
+    def play(self):
+        """Main game loop."""
+        while True:
+            self.print_board()
+            try:
+                position = int(input(f"Player {self.current_player}, enter your move (1-9): ")) - 1
+                if position < 0 or position > 8:
+                    print("Invalid input. Please enter a number between 1 and 9.")
+                    continue
+            except ValueError:
+                print("Invalid input. Please enter a number between 1 and 9.")
+                continue
+
+            if self.make_move(position):
+                break  # End the game if there's a winner or a draw
+
+if __name__ == "__main__":
+    game = TicTacToe()
+    game.play()
