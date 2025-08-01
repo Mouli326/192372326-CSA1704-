@@ -1,0 +1,51 @@
+class BackwardChaining:
+    def __init__(self):
+        # Define rules as a list of tuples (conclusion, conditions)
+        self.rules = [
+            ("C", ["A", "B"]),
+            ("D", ["C"]),
+            ("F", ["D", "E"]),
+            ("G", ["F"]),
+        ]
+        # Define known facts
+        self.facts = set()
+
+    def add_fact(self, fact):
+        """Add a new fact to the known facts."""
+        self.facts.add(fact)
+
+    def backward_chain(self, goal):
+        """Perform backward chaining to determine if the goal can be inferred."""
+        if goal in self.facts:
+            return True
+
+        for conclusion, conditions in self.rules:
+            if conclusion == goal:
+                # Check if all conditions are satisfied
+                if all(self.backward_chain(condition) for condition in conditions):
+                    return True
+
+        return False
+
+    def query(self, goal):
+        """Check if a goal can be inferred."""
+        return self.backward_chain(goal)
+
+def main():
+    bc = BackwardChaining()
+
+    # Add initial known facts
+    print("Adding initial facts...")
+    bc.add_fact("A")
+    bc.add_fact("B")
+
+    # Query the system
+    queries = ["C", "D", "E", "F", "G"]
+    for query in queries:
+        if bc.query(query):
+            print(f"Fact '{query}' can be inferred.")
+        else:
+            print(f"Fact '{query}' cannot be inferred.")
+
+if __name__ == "__main__":
+    main()
