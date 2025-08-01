@@ -1,0 +1,60 @@
+class VacuumCleaner:
+    def __init__(self, grid):
+        self.grid = grid  # The environment grid
+        self.position = (0, 0)  # Starting position of the vacuum cleaner
+        self.cleaned = 0  # Count of cleaned cells
+
+    def is_dirty(self, position):
+        """Check if the current position is dirty."""
+        x, y = position
+        return self.grid[x][y] == 1
+
+    def clean(self):
+        """Clean the current position."""
+        x, y = self.position
+        if self.is_dirty(self.position):
+            self.grid[x][y] = 0  # Clean the dirt
+            self.cleaned += 1
+            print(f"Cleaned position {self.position}")
+
+    def move(self, direction):
+        """Move the vacuum cleaner in the specified direction."""
+        x, y = self.position
+        if direction == 'up' and x > 0:
+            self.position = (x - 1, y)
+        elif direction == 'down' and x < len(self.grid) - 1:
+            self.position = (x + 1, y)
+        elif direction == 'left' and y > 0:
+            self.position = (x, y - 1)
+        elif direction == 'right' and y < len(self.grid[0]) - 1:
+            self.position = (x, y + 1)
+        print(f"Moved to position {self.position}")
+
+    def run(self):
+        """Run the vacuum cleaner until all dirt is cleaned."""
+        while True:
+            self.clean()  # Clean the current position
+            if self.cleaned == sum(sum(row) for row in self.grid):  # Check if all dirt is cleaned
+                print("All dirt cleaned!")
+                break
+            
+            # Decide next move (simple strategy: move right if possible, else down)
+            x, y = self.position
+            if y < len(self.grid[0]) - 1:  # Move right if possible
+                self.move('right')
+            elif x < len(self.grid) - 1:  # Move down if possible
+                self.move('down')
+            else:  # If can't move right or down, go back to the start
+                self.position = (0, 0)
+                print("Returning to start position.")
+
+if __name__ == "__main__":
+    # 1 represents dirt, 0 represents clean
+    environment = [
+        [1, 0, 1],
+        [0, 1, 0],
+        [1, 0, 1]
+    ]
+    
+    vacuum = VacuumCleaner(environment)
+    vacuum.run()
