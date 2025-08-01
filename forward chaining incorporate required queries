@@ -1,0 +1,53 @@
+class ForwardChaining:
+    def __init__(self):
+        # Define rules as a list of tuples (condition, conclusion)
+        self.rules = [
+            (["A", "B"], "C"),
+            (["C"], "D"),
+            (["D", "E"], "F"),
+            (["F"], "G"),
+        ]
+        # Define known facts
+        self.facts = set()
+
+    def add_fact(self, fact):
+        """Add a new fact to the known facts."""
+        self.facts.add(fact)
+
+    def infer(self):
+        """Perform forward chaining to infer new facts."""
+        new_facts = True
+
+        while new_facts:
+            new_facts = False
+            for conditions, conclusion in self.rules:
+                if all(condition in self.facts for condition in conditions) and conclusion not in self.facts:
+                    self.facts.add(conclusion)
+                    new_facts = True
+
+    def query(self, fact):
+        """Check if a fact can be inferred."""
+        return fact in self.facts
+
+def main():
+    fc = ForwardChaining()
+
+    # Add initial known facts
+    print("Adding initial facts...")
+    fc.add_fact("A")
+    fc.add_fact("B")
+
+    # Perform forward chaining
+    print("Inferring new facts...")
+    fc.infer()
+
+    # Query the system
+    queries = ["C", "D", "E", "F", "G"]
+    for query in queries:
+        if fc.query(query):
+            print(f"Fact '{query}' can be inferred.")
+        else:
+            print(f"Fact '{query}' cannot be inferred.")
+
+if __name__ == "__main__":
+    main()
