@@ -1,0 +1,50 @@
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        self.children = []
+
+    def add_child(self, child):
+        """Add a child to this person."""
+        self.children.append(child)
+
+    def __str__(self):
+        return f"{self.name}, Age: {self.age}"
+
+class FamilyTree:
+    def __init__(self, root_person):
+        self.root = root_person
+
+    def display_tree(self, person=None, level=0):
+        """Recursively display the family tree."""
+        if person is None:
+            person = self.root
+        print("  " * level + str(person))
+        for child in person.children:
+            self.display_tree(child, level + 1)
+
+def main():
+    # Create family members
+    grandparent = Person("John", 75)
+    parent1 = Person("Alice", 50)
+    parent2 = Person("Bob", 52)
+    child1 = Person("Charlie", 25)
+    child2 = Person("Daisy", 22)
+    child3 = Person("Eve", 20)
+
+    # Build the family tree
+    grandparent.add_child(parent1)
+    grandparent.add_child(parent2)
+    parent1.add_child(child1)
+    parent1.add_child(child2)
+    parent2.add_child(child3)
+
+    # Create the family tree
+    family_tree = FamilyTree(grandparent)
+
+    # Display the family tree
+    print("Family Tree:")
+    family_tree.display_tree()
+
+if __name__ == "__main__":
+    main()
