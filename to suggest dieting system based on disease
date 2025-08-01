@@ -1,0 +1,67 @@
+class DietSuggestionSystem:
+    def __init__(self):
+        # Dictionary to store diseases and their dietary suggestions
+        self.dietary_guidelines = {
+            "diabetes": [
+                "Choose whole grains over refined grains.",
+                "Limit sugar intake and avoid sugary drinks.",
+                "Eat plenty of non-starchy vegetables.",
+                "Include lean proteins like chicken, fish, and legumes.",
+                "Monitor carbohydrate intake."
+            ],
+            "hypertension": [
+                "Reduce sodium intake.",
+                "Eat more fruits and vegetables.",
+                "Choose whole grains.",
+                "Limit saturated fats and cholesterol.",
+                "Increase potassium-rich foods like bananas and spinach."
+            ],
+            "high cholesterol": [
+                "Limit saturated fats found in red meat and full-fat dairy.",
+                "Avoid trans fats found in processed foods.",
+                "Eat more soluble fiber from oats, beans, and fruits.",
+                "Include healthy fats like olive oil and avocados.",
+                "Increase physical activity."
+            ],
+            "obesity": [
+                "Focus on portion control.",
+                "Eat a balanced diet rich in fruits, vegetables, and whole grains.",
+                "Limit processed foods and sugary snacks.",
+                "Stay hydrated with water instead of sugary drinks.",
+                "Incorporate regular physical activity."
+            ],
+            "gastroesophageal reflux disease (GERD)": [
+                "Avoid spicy and fatty foods.",
+                "Eat smaller, more frequent meals.",
+                "Limit caffeine and alcohol.",
+                "Avoid lying down immediately after eating.",
+                "Incorporate ginger and oatmeal into your diet."
+            ]
+        }
+
+    def get_diet_suggestions(self, disease):
+        """Return dietary suggestions for the specified disease."""
+        return self.dietary_guidelines.get(disease.lower(), None)
+
+def main():
+    diet_system = DietSuggestionSystem()
+
+    while True:
+        print("\nDiet Suggestion System")
+        disease = input("Enter the name of the disease (or type 'exit' to quit): ")
+
+        if disease.lower() == 'exit':
+            print("Exiting the program.")
+            break
+
+        suggestions = diet_system.get_diet_suggestions(disease)
+
+        if suggestions is None:
+            print(f"Sorry, I don't have dietary suggestions for '{disease}'.")
+        else:
+            print(f"Dietary suggestions for {disease}:")
+            for suggestion in suggestions:
+                print(f"- {suggestion}")
+
+if __name__ == "__main__":
+    main()
