@@ -1,0 +1,71 @@
+class State:
+    def __init__(self, monkey_position, box_position, banana_position):
+        self.monkey_position = monkey_position
+        self.box_position = box_position
+        self.banana_position = banana_position
+
+    def is_goal(self):
+        """Check if the monkey has reached the bananas."""
+        return self.monkey_position == self.banana_position
+
+    def __str__(self):
+        return f"Monkey at {self.monkey_position}, Box at {self.box_position}, Bananas at {self.banana_position}"
+
+class MonkeyBananaProblem:
+    def __init__(self):
+        # Initial positions: monkey at position 0, box at position 0, bananas at position 2
+        self.initial_state = State(monkey_position=0, box_position=0, banana_position=2)
+
+    def move_monkey(self, state):
+        """Move the monkey to the next position."""
+        if state.monkey_position < 2:  # Assuming the banana is at position 2
+            new_monkey_position = state.monkey_position + 1
+            return State(new_monkey_position, state.box_position, state.banana_position)
+        return state
+
+    def move_box(self, state):
+        """Move the box to the next position."""
+        if state.box_position < 2:  # Assuming the banana is at position 2
+            new_box_position = state.box_position + 1
+            return State(state.monkey_position, new_box_position, state.banana_position)
+        return state
+
+    def climb_box(self, state):
+        """Climb on the box if the monkey is at the same position as the box."""
+        if state.monkey_position == state.box_position:
+            return State(state.monkey_position, state.box_position, state.banana_position)  # Monkey climbs the box
+        return state
+
+    def solve(self):
+        """Solve the Monkey and Banana problem."""
+        current_state = self.initial_state
+        steps = []
+
+        while not current_state.is_goal():
+            steps.append(str(current_state))
+            # Move the monkey
+            current_state = self.move_monkey(current_state)
+            if current_state.is_goal():
+                break
+            steps.append(str(current_state))
+            # Move the box
+            current_state = self.move_box(current_state)
+            if current_state.is_goal():
+                break
+            steps.append(str(current_state))
+            # Climb the box
+            current_state = self.climb_box(current_state)
+
+        steps.append(str(current_state))  # Final state
+        return steps
+
+def main():
+    problem = MonkeyBananaProblem()
+    solution_steps = problem.solve()
+
+    print("Steps to reach the bananas:")
+    for step in solution_steps:
+        print(step)
+
+if __name__ == "__main__":
+    main()
