@@ -1,0 +1,41 @@
+class BirdDatabase:
+    def __init__(self):
+        # Dictionary to store bird names and their flying capabilities
+        self.birds = {
+            "sparrow": True,
+            "eagle": True,
+            "penguin": False,
+            "ostrich": False,
+            "hummingbird": True,
+            "flamingo": True,
+            "kiwi": False,
+            "parrot": True,
+            "bat": True,  # Bats are mammals but can fly
+        }
+
+    def can_fly(self, bird_name):
+        """Check if the specified bird can fly."""
+        return self.birds.get(bird_name.lower(), None)
+
+def main():
+    bird_db = BirdDatabase()
+
+    while True:
+        print("\nBird Flying Ability Checker")
+        bird_name = input("Enter the name of the bird (or type 'exit' to quit): ")
+
+        if bird_name.lower() == 'exit':
+            print("Exiting the program.")
+            break
+
+        flying_ability = bird_db.can_fly(bird_name)
+
+        if flying_ability is None:
+            print(f"Sorry, I don't have information about '{bird_name}'.")
+        elif flying_ability:
+            print(f"Yes, a {bird_name} can fly.")
+        else:
+            print(f"No, a {bird_name} cannot fly.")
+
+if __name__ == "__main__":
+    main()
