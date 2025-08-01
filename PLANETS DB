@@ -1,0 +1,76 @@
+import sqlite3
+
+class PlanetsDB:
+    def __init__(self, db_name='planets.db'):
+        self.connection = sqlite3.connect(db_name)
+        self.cursor = self.connection.cursor()
+        self.create_table()
+
+    def create_table(self):
+        """Create the planets table if it doesn't exist."""
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS planets (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                diameter REAL,
+                distance_from_sun REAL,
+                number_of_moons INTEGER
+            )
+        ''')
+        self.connection.commit()
+
+    def add_planet(self, name, diameter, distance_from_sun, number_of_moons):
+        """Add a new planet to the database."""
+        self.cursor.execute('''
+            INSERT INTO planets (name, diameter, distance_from_sun, number_of_moons)
+            VALUES (?, ?, ?, ?)
+        ''', (name, diameter, distance_from_sun, number_of_moons))
+        self.connection.commit()
+        print(f"Planet {name} added successfully.")
+
+    def get_planets(self):
+        """Retrieve all planets from the database."""
+        self.cursor.execute('SELECT * FROM planets')
+        return self.cursor.fetchall()
+
+    def display_planets(self):
+        """Display all planets in a formatted way."""
+        planets = self.get_planets()
+        print("\nList of Planets:")
+        for planet in planets:
+            print(f"ID: {planet[0]}, Name: {planet[1]}, Diameter: {planet[2]} km, "
+                  f"Distance from Sun: {planet[3]} million km, Moons: {planet[4]}")
+
+    def close(self):
+        """Close the database connection."""
+        self.connection.close()
+
+
+if __name__ == "__main__":
+    db = PlanetsDB()
+
+    while True:
+        print("\nPlanets Database Management System")
+        print("1. Add Planet")
+        print("2. Display Planets")
+        print("3. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            name = input("Enter Planet Name: ")
+            diameter = float(input("Enter Diameter (in km): "))
+            distance_from_sun = float(input("Enter Distance from Sun (in million km): "))
+            number_of_moons = int(input("Enter Number of Moons: "))
+            db.add_planet(name, diameter, distance_from_sun, number_of_moons)
+
+        elif choice == '2':
+            db.display_planets()
+
+        elif choice == '3':
+            print("Exiting the system.")
+            db.close()
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
