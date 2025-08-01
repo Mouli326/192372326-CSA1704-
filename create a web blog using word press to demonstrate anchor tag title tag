@@ -1,0 +1,56 @@
+# Create a simple HTML blog page to demonstrate anchor and title tags
+def create_blog_html():
+    html_content = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title Tag: Appears in the browser tab -->
+    <title>My Tech Blog - Learn Web Development</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Tech Blog</h1>
+        <nav>
+            <!-- Anchor Tags: Used for hyperlinks -->
+            <ul>
+                <li><a href="#home" title="Go to Home Section">Home</a></li>
+                <li><a href="#about" title="Learn About This Blog">About</a></li>
+                <li><a href="#posts" title="Browse All Blog Posts">Posts</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h2>Latest Posts</h2>
+            <article>
+                <h3><a href="#html-basics" title="Learn HTML Basics">HTML Basics for Beginners</a></h3>
+                <p>A guide to understanding HTML structure and tags.</p>
+                <!-- Anchor with target="_blank" to open in new tab -->
+                <a href="https://example.com/html-tutorial" target="_blank" title="External HTML Tutorial">Read Full Article</a>
+            </article>
+            <article>
+                <h3><a href="#css-intro" title="Introduction to CSS">CSS Introduction</a></h3>
+                <p>Learn how to style your web pages with CSS.</p>
+                <a href="https://example.com/css-tutorial" title="External CSS Tutorial">Read Full Article</a>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Anchor with mailto: for email links -->
+        <p>Contact us at: <a href="mailto:contact@example.com" title="Email Us">contact@example.com</a></p>
+    </footer>
+</body>
+</html>
+    """
+
+    # Write the HTML content to a file
+    with open("blog_demo.html", "w") as file:
+        file.write(html_content)
+    print("HTML blog file 'blog_demo.html' created successfully!")
+
+if __name__ == "__main__":
+    create_blog_html()
