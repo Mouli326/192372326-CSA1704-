@@ -1,0 +1,21 @@
+def sum_integers_loop(n):
+    total = 0
+    for i in range(1, n + 1):
+        total += i
+    return total
+
+def sum_integers_formula(n):
+    return n * (n + 1) // 2
+
+def sum_integers_builtin(n):
+    return sum(range(1, n + 1))
+
+# Example usage
+n = 10
+result_loop = sum_integers_loop(n)
+result_formula = sum_integers_formula(n)
+result_builtin = sum_integers_builtin(n)
+
+print(f"Using loop: The sum of integers from 1 to {n} is: {result_loop}")
+print(f"Using formula: The sum of integers from 1 to {n} is: {result_formula}")
+print(f"Using built-in function: The sum of integers from 1 to {n} is: {result_builtin}")
